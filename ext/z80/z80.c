@@ -274,9 +274,9 @@ FLAG_ACCESSOR(nf, 1)
 FLAG_ACCESSOR(cf, 0)
 
 
-typedef struct {char const* name; zuint offset;} NameAndOffset;
+static struct {char const* name; zuint offset;} const
 
-static NameAndOffset const data_members_16[] = {
+members_16[] = {
 	{"memptr", Z_MEMBER_OFFSET(Z80, memptr	)},
 	{"pc",	   Z_MEMBER_OFFSET(Z80, pc	)},
 	{"sp",	   Z_MEMBER_OFFSET(Z80, sp	)},
@@ -291,9 +291,9 @@ static NameAndOffset const data_members_16[] = {
 	{"bc_",	   Z_MEMBER_OFFSET(Z80, bc_	)},
 	{"de_",	   Z_MEMBER_OFFSET(Z80, de_	)},
 	{"hl_",	   Z_MEMBER_OFFSET(Z80, hl_	)}
-};
+},
 
-static NameAndOffset const data_members_8[] = {
+members_8[] = {
 	{"r",	      Z_MEMBER_OFFSET(Z80, r	    )},
 	{"i",	      Z_MEMBER_OFFSET(Z80, i	    )},
 	{"r7",	      Z_MEMBER_OFFSET(Z80, r7	    )},
@@ -312,20 +312,20 @@ static NameAndOffset const data_members_8[] = {
 static VALUE Z80__to_h(VALUE self)
 	{
 	VALUE hash = rb_hash_new();
-	VALUE kv[(Z_ARRAY_SIZE(data_members_16) + Z_ARRAY_SIZE(data_members_8)) * 2];
+	VALUE kv[(Z_ARRAY_SIZE(members_16) + Z_ARRAY_SIZE(members_8)) * 2];
 	int i = 0, j;
 	OBJ;
 
-	for (j = 0; j < Z_ARRAY_SIZE(data_members_16);)
+	for (j = 0; j < Z_ARRAY_SIZE(members_16);)
 		{
-		kv[i++] = rb_id2sym(rb_intern(data_members_16[j].name));
-		kv[i++] = UINT2NUM(*(zuint16 *)(void *)((char *)obj + data_members_16[j++].offset));
+		kv[i++] = rb_id2sym(rb_intern(members_16[j].name));
+		kv[i++] = UINT2NUM(*(zuint16 *)(void *)((char *)obj + members_16[j++].offset));
 		}
 
-	for (j = 0; j < Z_ARRAY_SIZE(data_members_8);)
+	for (j = 0; j < Z_ARRAY_SIZE(members_8);)
 		{
-		kv[i++] = rb_id2sym(rb_intern(data_members_8[j].name));
-		kv[i++] = UINT2NUM(*((zuint8 *)obj + data_members_8[j++].offset));
+		kv[i++] = rb_id2sym(rb_intern(members_8[j].name));
+		kv[i++] = UINT2NUM(*((zuint8 *)obj + members_8[j++].offset));
 		}
 
 	rb_hash_bulk_insert_into_st_table(Z_ARRAY_SIZE(kv), kv, hash);
