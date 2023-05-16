@@ -1,0 +1,14 @@
+.DS_Store
+.directory
+Thumbs.db
+/ext/z80/Makefile
+/ext/z80/z80.so
+/ext/z80/z80.o
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
