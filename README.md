@@ -29,7 +29,7 @@ cpu.hook do |context, address|
 		0 # NOP
 	when 5 # PRINT
 		i = cpu.de
-		while ((c = memory[i]) != 0x24)
+		while (c = memory[i]) != 0x24
 			putc(c == 0xA ? "\n" : c) if c != 0xD
 			i = (i + 1) & 0xFFFF
 		end
