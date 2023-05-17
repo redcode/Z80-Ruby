@@ -99,11 +99,16 @@ cpu.hook do |context, address|
 					cursor_x += 1
 				end
 			end
-		if else
-			s = (cpu.a & 0x1F) - (cursor_x & 0x1F)
-			cursor_x += s
-			print ' ' * s
-			tab = false
+		elsif (tab -= 1) != 0
+			c = 0x1F & cpu.a
+			x = 0x1F & cursor_x
+			if c < x
+				putc "\n"
+				cursor_x = 0
+			else
+				cursor_x += (c -= x)
+			end
+			print ' ' * c
 		end
 		Opcode::RET
 	when 0x7003 # Exit
@@ -116,7 +121,7 @@ cpu.hook do |context, address|
 end
 
 program = File.read(ARGV[0])
-memory[LOAD_ADDRESS, program.size] = program.bytes[91..-1]
+memory[0x8000, program.size - 91] = program.bytes[91..-1]
 memory[0x0010] = Z80::HOOK    # THE 'PRINT A CHARACTER' RESTART
 memory[0x0D6B] = Opcode::RET  # THE 'CLS' COMMAND ROUTINE
 memory[0x1601] = Opcode::RET  # THE 'CHAN_OPEN' SUBROUTINE
@@ -127,7 +132,7 @@ memory[0x7003] = Z80::HOOK
 cpu.power true
 cpu.im = 1
 cpu.i  = 0x3F
-cpu.pc = START_ADDRESS
+cpu.pc = 0x7000
 cpu.run(Z80::MAXIMUM_CYCLES) until quit
 
 ```
