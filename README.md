@@ -49,7 +49,7 @@ puts
 
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80/images/ruby-icon.svg" height="14"></sub> run-yaze-zexall.rb](https://zxe.io/software/Z80/run-yaze-zexall.rb)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80/images/ruby-icon.svg" height="14"></sub> run-yaze-zexall.rb](https://zxe.io/software/Z80/scripts/run-yaze-zexall.rb)**</sup>
 
 This runs any tape from Patrik Rak's [Zilog Z80 CPU Test Suite](https://github.com/raxoft/z80test) (except `z80ccfscr.tap`):
 
@@ -137,7 +137,7 @@ cpu.run(Z80::MAXIMUM_CYCLES) until quit
 
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80/images/ruby-icon.svg" height="14"></sub> run-raxoft-z80test.rb](https://zxe.io/software/Z80/run-raxoft-z80test.rb)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80/images/ruby-icon.svg" height="14"></sub> run-raxoft-z80test.rb](https://zxe.io/software/Z80/scripts/run-raxoft-z80test.rb)**</sup>
 
 ## License
 
