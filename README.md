@@ -24,7 +24,7 @@ end
 cpu.hook do |context, address|
 	case address
 	when 0 # END
-		cpu.cycles = Z80::MAXIMUM_CYCLES
+		cpu.terminate
 		quit = true
 		0 # NOP
 	when 5 # PRINT
@@ -112,7 +112,7 @@ cpu.hook do |context, address|
 		end
 		Opcode::RET
 	when 0x7003 # Exit
-		cpu.cycles = Z80::MAXIMUM_CYCLES
+		cpu.terminate
 		quit = true
 		Opcode::NOP
 	else
