@@ -11,8 +11,8 @@ abort "missing library Z80"  unless have_library 'Z80'
 	z80_nmi
 	z80_execute
 	z80_run
-).each do |symbol|
-	abort "missing #{symbol}()" unless have_func symbol
+).each do |function|
+	abort "missing #{function}()" unless have_func function
 end
 
 have_func 'z80_special_reset'
@@ -23,8 +23,8 @@ have_func 'z80_special_reset'
 	z80_refresh_address
 	z80_in_cycle
 	z80_out_cycle
-).each do |symbol|
-	abort "missing #{symbol}()" unless have_func(symbol, 'Z80.h')
+).each do |function|
+	abort "missing #{function}()" unless have_func(function, 'Z80.h')
 end
 
 %w(
