@@ -4,18 +4,36 @@ Ruby binding for the [Z80](https://github.com/redcode/Z80) library.
 
 ## Installation
 
-First make sure that you have the Z80 library [installed](https://github.com/redcode/Z80#installation) on your system.
+First, make sure that you have the Z80 library [installed](https://github.com/redcode/Z80#installation) on your system.
 
-Then add `z80` to the `Gemfile` of your project and run `bundle`:
+Then add the `z80` gem to the `Gemfile` of your project and run `bundle`:
 
 ```ruby
 gem 'z80'
 ```
 
-Or install the gem directly with `gem`:
+Or install the gem directly:
 
 ```shell
 gem install z80
+```
+
+### Troubleshooting
+
+#### I installed the Z80 library on macOS through Homebrew, but `bundle` does not find it.
+
+Make sure that the environment variable `LIBRARY_PATH` is set:
+
+```shell
+export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix)/lib"
+```
+
+#### I installed the Z80 library on macOS through Homebrew, but `gem` does not find it.
+
+Tell `gem` the installation prefix of the library:
+
+```shell
+gem install z80 -- --with-Z80-dir=$(brew --prefix)
 ```
 
 ## Examples
