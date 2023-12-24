@@ -39,6 +39,8 @@ gem install z80 -- --with-Z80-dir=$(brew --prefix)
 
 ## Examples
 
+### Z80 Instruction Set Exerciser
+
 This small script demonstrates how to run the [CP/M version of ZEXALL](https://github.com/redcode/Z80/wiki/Z80-Instruction-Set-Exerciser) with a few lines of code:
 
 ```ruby
@@ -91,7 +93,9 @@ Give it a try:
 curl ftp://ftp.ping.de/pub/misc/emulators/yaze-1.14.tar.gz | tar -xOzf- yaze-1.14/test/zexall.com | ruby -e'eval `curl https://zxe.io/software/Z80/scripts/run-yaze-zexall.rb`'
 ```
 
-This another one runs any tape from Patrik Rak's [Zilog Z80 CPU Test Suite](https://github.com/raxoft/z80test) (except `z80ccfscr.tap`):
+### Zilog Z80 CPU Test Suite
+
+This runs any tape from Patrik Rak's [Zilog Z80 CPU Test Suite](https://github.com/raxoft/z80test) (except `z80ccfscr.tap`):
 
 ```ruby
 require 'z80'
