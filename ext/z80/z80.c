@@ -243,27 +243,27 @@ static VALUE Z80__context(VALUE self)
 
 
 #define MACRO( member, macro) macro(*z80)
-#define DIRECT(member, macro) (*z80).member
+#define DIRECT(member, macro) z80->member
 #define UINT_TO_BOOL(value) value ? Qtrue : Qfalse
 
-#define BOOL_NUM_TO_UINT(value) (		   \
-	value & ~(VALUE)(RUBY_Qtrue | RUBY_Qfalse) \
-		? NUM2UINT(value) : RB_TEST(value))
+#define BOOL_NUM_TO_UINT(value) \
+    (value == Qfalse ? 0 : (value == Qtrue ? 1 : !!NUM2UINT(value)))
 
 
-#define ACCESSOR(type, member, access, with, c_to_ruby, ruby_to_c)		 \
-										 \
-	static VALUE Z80__##member(VALUE self)					 \
-		{								 \
-		GET_Z80;							 \
-		return c_to_ruby(access(member, with));				 \
-		}								 \
-										 \
-										 \
-	static VALUE Z80__set_##member(VALUE self, VALUE value)			 \
-		{								 \
-		GET_Z80;							 \
-		return c_to_ruby(access(member, with) = (type)ruby_to_c(value)); \
+#define ACCESSOR(type, member, access, with, c_to_ruby, ruby_to_c) \
+								   \
+	static VALUE Z80__##member(VALUE self)			   \
+		{						   \
+		GET_Z80;					   \
+		return c_to_ruby(access(member, with));		   \
+		}						   \
+								   \
+								   \
+	static VALUE Z80__set_##member(VALUE self, VALUE value)	   \
+		{						   \
+		GET_Z80;					   \
+		access(member, with) = (type)ruby_to_c(value);	   \
+		return value;					   \
 		}
 
 
@@ -321,8 +321,8 @@ ACCESSOR(zuint8,  iff1,	       DIRECT, Z_EMPTY,	    UINT_TO_BOOL, BOOL_NUM_TO_UI
 ACCESSOR(zuint8,  iff2,	       DIRECT, Z_EMPTY,	    UINT_TO_BOOL, BOOL_NUM_TO_UINT)
 ACCESSOR(zuint8,  q,	       DIRECT, Z_EMPTY,	    UINT2NUM,	  NUM2UINT	  )
 ACCESSOR(zuint8,  options,     DIRECT, Z_EMPTY,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  int_line,    DIRECT, Z_EMPTY,	    UINT_TO_BOOL, RB_TEST	  )
-ACCESSOR(zuint8,  halt_line,   DIRECT, Z_EMPTY,	    UINT_TO_BOOL, RB_TEST	  )
+ACCESSOR(zuint8,  int_line,    DIRECT, Z_EMPTY,	    UINT_TO_BOOL, BOOL_NUM_TO_UINT)
+ACCESSOR(zuint8,  halt_line,   DIRECT, Z_EMPTY,	    UINT_TO_BOOL, BOOL_NUM_TO_UINT)
 
 #undef UINT_TO_BOOL
 #undef MACRO
@@ -624,7 +624,7 @@ static VALUE Z80__alloc(VALUE klass)
 
 void Init_z80(void)
 	{
-	VALUE module, klass = rb_define_class("Z80", rb_cObject);
+	VALUE module, klass = rb_const_get(rb_cObject, rb_intern("Z80"));
 
 	rb_define_alloc_func(klass, Z80__alloc);
 
