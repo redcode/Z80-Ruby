@@ -20,7 +20,7 @@ gem install z80
 
 ### Troubleshooting
 
-#### I installed the Z80 library on macOS through Homebrew, but `bundle` does not find it.
+#### "I installed the Z80 library on macOS through Homebrew, but `bundle` does not find it."
 
 Make sure that the environment variable `LIBRARY_PATH` is set:
 
@@ -28,7 +28,7 @@ Make sure that the environment variable `LIBRARY_PATH` is set:
 export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix)/lib"
 ```
 
-#### I installed the Z80 library on macOS through Homebrew, but `gem` does not find it.
+#### "I installed the Z80 library on macOS through Homebrew, but `gem` does not find it."
 
 Tell `gem` the installation prefix of the library:
 
