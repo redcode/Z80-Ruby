@@ -12,7 +12,7 @@ Then add `z80` to the `Gemfile` of your project and run `bundle`:
 gem 'z80'
 ```
 
-Or install it directly with `gem`:
+Or install the gem directly with `gem`:
 
 ```shell
 gem install z80
