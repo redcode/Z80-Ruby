@@ -1,6 +1,22 @@
 # Z80-Ruby
 
-Ruby binding for the [Z80 library](https://github.com/redcode/Z80).
+Ruby binding for the [Z80](https://github.com/redcode/Z80) library.
+
+## Installation
+
+First make sure that you have the Z80 library [installed](https://github.com/redcode/Z80#installation) on your system.
+
+Then add `z80` to the `Gemfile` of your project and run `bundle`:
+
+```ruby
+gem 'z80'
+```
+
+Or install it directly with `gem`:
+
+```shell
+gem install z80
+```
 
 ## Examples
 
@@ -49,7 +65,7 @@ puts
 
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80/images/ruby-icon.svg" height="14"></sub> run-yaze-zexall.rb](https://zxe.io/software/Z80/scripts/run-yaze-zexall.rb)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/ruby-icon.svg" height="14"></sub> run-yaze-zexall.rb](https://zxe.io/software/Z80/scripts/run-yaze-zexall.rb)**</sup>
 
 This runs any tape from Patrik Rak's [Zilog Z80 CPU Test Suite](https://github.com/raxoft/z80test) (except `z80ccfscr.tap`):
 
@@ -137,11 +153,11 @@ cpu.run(Z80::MAXIMUM_CYCLES) until quit
 
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80/images/ruby-icon.svg" height="14"></sub> run-raxoft-z80test.rb](https://zxe.io/software/Z80/scripts/run-raxoft-z80test.rb)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/ruby-icon.svg" height="14"></sub> run-raxoft-z80test.rb](https://zxe.io/software/Z80/scripts/run-raxoft-z80test.rb)**</sup>
 
 ## License
 
-BSD Zero Clause License
+<img src="https://zxe.io/software/Z80/assets/images/0bsd.svg" width="160" align="right">
 
 Copyright © 2023 Manuel Sainz de Baranda y Goñi.
 
