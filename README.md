@@ -74,7 +74,7 @@ cpu.hook do |context, address|
 	end
 end
 
-program = File.read(ARGV[0])
+program = $stdin.tty? ? File.read(ARGV[0]) : $stdin.read
 memory[0x0100, program.size] = program.bytes
 memory[0] = memory[5] = Z80::HOOK
 cpu.power true
@@ -85,7 +85,13 @@ puts
 
 <sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/ruby-icon.svg" height="14"></sub> run-yaze-zexall.rb](https://zxe.io/software/Z80/scripts/run-yaze-zexall.rb)**</sup>
 
-This runs any tape from Patrik Rak's [Zilog Z80 CPU Test Suite](https://github.com/raxoft/z80test) (except `z80ccfscr.tap`):
+Give it a try:
+
+```
+curl ftp://ftp.ping.de/pub/misc/emulators/yaze-1.14.tar.gz | tar -xOzf- yaze-1.14/test/zexall.com | ruby -e'eval `curl https://zxe.io/software/Z80/scripts/run-yaze-zexall.rb`'
+```
+
+This another one runs any tape from Patrik Rak's [Zilog Z80 CPU Test Suite](https://github.com/raxoft/z80test) (except `z80ccfscr.tap`):
 
 ```ruby
 require 'z80'
@@ -154,7 +160,7 @@ cpu.hook do |context, address|
 	end
 end
 
-program = File.read(ARGV[0])
+program = $stdin.tty? ? File.read(ARGV[0]) : $stdin.read
 memory[0x8000, program.size - 91] = program.bytes[91..-1]
 memory[0x0010] = Z80::HOOK    # THE 'PRINT A CHARACTER' RESTART
 memory[0x0D6B] = Opcode::RET  # THE 'CLS' COMMAND ROUTINE
@@ -171,6 +177,12 @@ cpu.run(Z80::MAXIMUM_CYCLES) until quit
 ```
 
 <sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/ruby-icon.svg" height="14"></sub> run-raxoft-z80test.rb](https://zxe.io/software/Z80/scripts/run-raxoft-z80test.rb)**</sup>
+
+Give it a try:
+
+```shell
+curl http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip | bsdtar -xOf- z80test-1.2a/z80full.tap | ruby -e'eval `curl https://zxe.io/software/Z80/scripts/run-raxoft-z80test.rb`'
+```
 
 ## License
 
