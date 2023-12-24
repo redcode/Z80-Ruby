@@ -62,7 +62,6 @@ cpu.power true
 cpu.pc = 0x0100
 cpu.run(Z80::MAXIMUM_CYCLES) until quit
 puts
-
 ```
 
 <sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/ruby-icon.svg" height="14"></sub> run-yaze-zexall.rb](https://zxe.io/software/Z80/scripts/run-yaze-zexall.rb)**</sup>
@@ -150,7 +149,6 @@ cpu.im = 1
 cpu.i  = 0x3F
 cpu.pc = 0x7000
 cpu.run(Z80::MAXIMUM_CYCLES) until quit
-
 ```
 
 <sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/ruby-icon.svg" height="14"></sub> run-raxoft-z80test.rb](https://zxe.io/software/Z80/scripts/run-raxoft-z80test.rb)**</sup>
