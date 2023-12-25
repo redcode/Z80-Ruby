@@ -90,12 +90,12 @@ ARGV.each do |file_path|
 end
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/ruby-icon.svg" height="14"></sub> run-yaze-zex.rb](https://zxe.io/software/Z80/scripts/run-yaze-zex.rb)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80-Ruby/assets/images/ruby-icon.svg" height="14"></sub> run-yaze-zex.rb](https://zxe.io/software/Z80-Ruby/scripts/run-yaze-zex.rb)**</sup>
 
 Give it a try:
 
 ```
-curl ftp://ftp.ping.de/pub/misc/emulators/yaze-1.14.tar.gz | tar -xOzf- yaze-1.14/test/zexall.com | ruby -e'eval `curl https://zxe.io/software/Z80/scripts/run-yaze-zex.rb`' -
+curl ftp://ftp.ping.de/pub/misc/emulators/yaze-1.14.tar.gz | tar -xOzf- yaze-1.14/test/zexall.com | ruby -e'eval `curl https://zxe.io/software/Z80-Ruby/scripts/run-yaze-zex.rb`' -
 ```
 
 ### Zilog Z80 CPU Test Suite
@@ -189,17 +189,17 @@ ARGV.each do |file_path|
 end
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/ruby-icon.svg" height="14"></sub> run-raxoft-z80test.rb](https://zxe.io/software/Z80/scripts/run-raxoft-z80test.rb)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80-Ruby/assets/images/ruby-icon.svg" height="14"></sub> run-raxoft-z80test.rb](https://zxe.io/software/Z80-Ruby/scripts/run-raxoft-z80test.rb)**</sup>
 
 Give it a try:
 
 ```shell
-curl http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip | bsdtar -xOf- z80test-1.2a/z80full.tap | ruby -e'eval `curl https://zxe.io/software/Z80/scripts/run-raxoft-z80test.rb`' -
+curl http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip | bsdtar -xOf- z80test-1.2a/z80full.tap | ruby -e'eval `curl https://zxe.io/software/Z80-Ruby/scripts/run-raxoft-z80test.rb`' -
 ```
 
 ## License
 
-<img src="https://zxe.io/software/Z80/assets/images/0bsd.svg" width="160" align="right">
+<img src="https://zxe.io/software/Z80-Ruby/assets/images/0bsd.svg" width="160" align="right">
 
 Copyright © 2023 Manuel Sainz de Baranda y Goñi.
 
