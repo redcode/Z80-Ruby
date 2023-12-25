@@ -20,16 +20,16 @@ gem install z80
 
 ### Troubleshooting
 
-#### "I installed the Z80 library on macOS through Homebrew, but `bundle` does not find it."
+#### "I installed the Z80 library through Homebrew, but `bundle` does not find it."
 
-Make sure that the environment variables `C_INCLUDE_PATH` and `LIBRARY_PATH` are set:
+Configure the environment variables [`C_INCLUDE_PATH`](https://gcc.gnu.org/onlinedocs/gcc/Environment-Variables.html#index-C_005fINCLUDE_005fPATH) and [`LIBRARY_PATH`](https://gcc.gnu.org/onlinedocs/gcc/Environment-Variables.html#index-LIBRARY_005fPATH) by adding the installation prefix of the library:
 
 ```shell
 export C_INCLUDE_PATH="$C_INCLUDE_PATH:$(brew --prefix)/include"
 export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix)/lib"
 ```
 
-#### "I installed the Z80 library on macOS through Homebrew, but `gem` does not find it."
+#### "I installed the Z80 library through Homebrew, but `gem` does not find it."
 
 Tell `gem` the installation prefix of the library:
 
