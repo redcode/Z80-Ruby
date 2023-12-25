@@ -76,10 +76,10 @@ cpu.hook do |context, address|
 end
 
 ARGV.each do |file_path|
-	puts "#{file_path}:"
 	program = file_path == '-' ? $stdin.read : File.read(file_path)
-	quit    = false
-	memory  = Array.new(65536, 0)
+	puts "#{file_path}:"
+	quit = false
+	memory = Array.new(65536, 0)
 	memory[0x0100, program.size] = program.bytes
 	memory[0] = memory[5] = Z80::HOOK
 	cpu.power true
@@ -166,8 +166,8 @@ cpu.hook do |context, address|
 end
 
 ARGV.each do |file_path|
+	program = file_path == '-' ? $stdin.read : File.read(file_path)
 	puts "#{file_path}:"
-	program  = file_path == '-' ? $stdin.read : File.read(file_path)
 	quit     = false
 	cursor_x = tab = 0
 	memory   = Array.new(65536, 0)
