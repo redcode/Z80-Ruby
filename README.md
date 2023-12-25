@@ -86,6 +86,7 @@ ARGV.each do |file_path|
 	cpu.pc = 0x0100
 	cpu.run(Z80::MAXIMUM_CYCLES) until quit
 	puts
+	break if file_path == '-'
 end
 ```
 
@@ -184,6 +185,7 @@ ARGV.each do |file_path|
 	cpu.i  = 0x3F
 	cpu.pc = 0x7000
 	cpu.run(Z80::MAXIMUM_CYCLES) until quit
+	break if file_path == '-'
 end
 ```
 
