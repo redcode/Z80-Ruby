@@ -41,14 +41,13 @@ gem install z80 -- --with-Z80-dir=$(brew --prefix)
 
 ### Z80 Instruction Set Exerciser
 
-This small script demonstrates how to run the [CP/M version of ZEXALL](https://github.com/redcode/Z80/wiki/Z80-Instruction-Set-Exerciser) with a few lines of code:
+This small script demonstrates how to run the [CP/M versions of `zexall` and `zexdoc`](https://github.com/redcode/Z80/wiki/Z80-Instruction-Set-Exerciser) with a few lines of code:
 
 ```ruby
 require 'z80'
 
-quit   = false
-memory = Array.new(65536, 0)
-cpu    = Z80.new
+memory = quit = nil
+cpu = Z80.new
 
 cpu.fetch_opcode = cpu.fetch = cpu.read do |context, address|
 	memory[address]
@@ -76,21 +75,26 @@ cpu.hook do |context, address|
 	end
 end
 
-program = $stdin.tty? ? File.read(ARGV[0]) : $stdin.read
-memory[0x0100, program.size] = program.bytes
-memory[0] = memory[5] = Z80::HOOK
-cpu.power true
-cpu.pc = 0x0100
-cpu.run(Z80::MAXIMUM_CYCLES) until quit
-puts
+ARGV.each do |file_path|
+	puts "#{file_path}:"
+	program = file_path == '-' ? $stdin.read : File.read(file_path)
+	quit    = false
+	memory  = Array.new(65536, 0)
+	memory[0x0100, program.size] = program.bytes
+	memory[0] = memory[5] = Z80::HOOK
+	cpu.power true
+	cpu.pc = 0x0100
+	cpu.run(Z80::MAXIMUM_CYCLES) until quit
+	puts
+end
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/ruby-icon.svg" height="14"></sub> run-yaze-zexall.rb](https://zxe.io/software/Z80/scripts/run-yaze-zexall.rb)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/ruby-icon.svg" height="14"></sub> run-yaze-zex.rb](https://zxe.io/software/Z80/scripts/run-yaze-zex.rb)**</sup>
 
 Give it a try:
 
 ```
-curl ftp://ftp.ping.de/pub/misc/emulators/yaze-1.14.tar.gz | tar -xOzf- yaze-1.14/test/zexall.com | ruby -e'eval `curl https://zxe.io/software/Z80/scripts/run-yaze-zexall.rb`'
+curl ftp://ftp.ping.de/pub/misc/emulators/yaze-1.14.tar.gz | tar -xOzf- yaze-1.14/test/zexall.com | ruby -e'eval `curl https://zxe.io/software/Z80/scripts/run-yaze-zex.rb`' -
 ```
 
 ### Zilog Z80 CPU Test Suite
@@ -106,11 +110,8 @@ module Opcode
 	CALL = 0xCD
 end
 
-quit     = false
-tab      = 0
-cursor_x = 0
-memory   = Array.new(65536, 0)
-cpu      = Z80.new
+quit = cursor_x = tab = memory = nil
+cpu = Z80.new
 
 cpu.fetch_opcode = cpu.fetch = cpu.read do |context, address|
 	memory[address]
@@ -164,20 +165,26 @@ cpu.hook do |context, address|
 	end
 end
 
-program = $stdin.tty? ? File.read(ARGV[0]) : $stdin.read
-memory[0x8000, program.size - 91] = program.bytes[91..-1]
-memory[0x0010] = Z80::HOOK    # THE 'PRINT A CHARACTER' RESTART
-memory[0x0D6B] = Opcode::RET  # THE 'CLS' COMMAND ROUTINE
-memory[0x1601] = Opcode::RET  # THE 'CHAN_OPEN' SUBROUTINE
-memory[0x7000] = Opcode::CALL # -.
-memory[0x7001] = 0x00         #  |- call 8000h
-memory[0x7002] = 0x80         # -'
-memory[0x7003] = Z80::HOOK
-cpu.power true
-cpu.im = 1
-cpu.i  = 0x3F
-cpu.pc = 0x7000
-cpu.run(Z80::MAXIMUM_CYCLES) until quit
+ARGV.each do |file_path|
+	puts "#{file_path}:"
+	program  = file_path == '-' ? $stdin.read : File.read(file_path)
+	quit     = false
+	cursor_x = tab = 0
+	memory   = Array.new(65536, 0)
+	memory[0x8000, program.size - 91] = program.bytes[91..-1]
+	memory[0x0010] = Z80::HOOK    # THE 'PRINT A CHARACTER' RESTART
+	memory[0x0D6B] = Opcode::RET  # THE 'CLS' COMMAND ROUTINE
+	memory[0x1601] = Opcode::RET  # THE 'CHAN_OPEN' SUBROUTINE
+	memory[0x7000] = Opcode::CALL # -.
+	memory[0x7001] = 0x00         #  |- call 8000h
+	memory[0x7002] = 0x80         # -'
+	memory[0x7003] = Z80::HOOK
+	cpu.power true
+	cpu.im = 1
+	cpu.i  = 0x3F
+	cpu.pc = 0x7000
+	cpu.run(Z80::MAXIMUM_CYCLES) until quit
+end
 ```
 
 <sup>**[<sub><img src="https://zxe.io/software/Z80/assets/images/ruby-icon.svg" height="14"></sub> run-raxoft-z80test.rb](https://zxe.io/software/Z80/scripts/run-raxoft-z80test.rb)**</sup>
@@ -185,7 +192,7 @@ cpu.run(Z80::MAXIMUM_CYCLES) until quit
 Give it a try:
 
 ```shell
-curl http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip | bsdtar -xOf- z80test-1.2a/z80full.tap | ruby -e'eval `curl https://zxe.io/software/Z80/scripts/run-raxoft-z80test.rb`'
+curl http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip | bsdtar -xOf- z80test-1.2a/z80full.tap | ruby -e'eval `curl https://zxe.io/software/Z80/scripts/run-raxoft-z80test.rb`' -
 ```
 
 ## License
