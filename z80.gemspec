@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
 	s.version     = Z80::VERSION
 	s.authors     = 'Manuel Sainz de Baranda y Goñi'
 	s.email       = 'manuel@zxe.io'
-	s.homepage    = 'https://zxe.io/software/Z80'
+	s.homepage    = 'https://zxe.io/software/Z80-Ruby'
 	s.license     = '0BSD'
 	s.summary     = "Ruby binding for the Z80 library."
 	s.description = <<~EOS
@@ -17,9 +17,8 @@ Gem::Specification.new do |s|
 	s.metadata = {
 		'bug_tracker_uri' => "https://github.com/redcode/Z80-Ruby/issues",
 		'changelog_uri'   => 'https://github.com/redcode/Z80-Ruby/blob/master/CHANGELOG.md',
-		'homepage_uri'    => 'https://zxe.io/software/Z80',
+		'homepage_uri'    => 'https://zxe.io/software/Z80-Ruby',
 		'source_code_uri' => 'https://github.com/redcode/Z80-Ruby',
-
 	}
 
 	s.files = [
@@ -34,7 +33,8 @@ Gem::Specification.new do |s|
 		'ext/z80/extconf.rb',
 		'ext/z80/z80.c',
 		'lib/z80.rb',
-		'lib/z80/version.rb'
+		'lib/z80/version.rb',
+		'z80.gemspec'
 	]
 
 	s.extensions = %w(ext/z80/extconf.rb)
