@@ -1,5 +1,8 @@
 # Z80-Ruby
 
+[![](https://zxe.io/software/Z80-Ruby/assets/images/gem-badge)](https://zxe.io/software/Z80-Ruby/gem)
+[![](https://zxe.io/software/Z80/assets/images/chat-badge)](https://zxe.io/software/Z80/chat)
+
 Ruby binding for the [Z80](https://github.com/redcode/Z80) library.
 
 ## Installation
