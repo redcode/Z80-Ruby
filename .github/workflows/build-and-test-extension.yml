@@ -1,0 +1,58 @@
+name: Build and test extension
+
+on:
+  push:
+    paths:
+    - '.github/workflows/build-and-test-extension.yml'
+    - 'ext/**'
+    - 'lib/**'
+    - 'Rakefile'
+    - 'z80.gemspec'
+  pull_request:
+    paths:
+    - '.github/workflows/build-and-test-extension.yml'
+    - 'ext/**'
+    - 'lib/**'
+    - 'Rakefile'
+    - 'z80.gemspec'
+
+jobs:
+  build-and-test-extension:
+    runs-on: ${{matrix.os}}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0'
+
+    - name: Install dependencies (macOS)
+      if: startsWith(matrix.os, 'macos')
+      run: brew install redcode/zxe/z80
+
+    - name: Install dependencies (Ubuntu)
+      if: startsWith(matrix.os, 'ubuntu')
+      run: |
+        sudo mkdir -pm700 /root/.gnupg
+        sudo mkdir -pm755 /etc/apt/keyrings
+        sudo gpg --no-default-keyring --keyring /etc/apt/keyrings/zxe-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys FE214A38D6A0C01D9AF514EE841EA3BD3A7E1487
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/zxe-archive-keyring.gpg] https://zxe.io/repos/apt stable main" | sudo tee /etc/apt/sources.list.d/zxe.list
+        sudo apt-get update
+        sudo apt-get -y install libz80-dev
+
+    - name: Build gem
+      run: gem build z80.gemspec
+
+    - name: Install gem (macOS)
+      if: startsWith(matrix.os, 'macos')
+      run: gem install z80*.gem -- --with-Z80-dir=$(brew --prefix)
+
+    - name: Install gem (Ubuntu)
+      if: startsWith(matrix.os, 'ubuntu')
+      run: gem install z80*.gem

@@ -1,6 +1,7 @@
 # Z80-Ruby
 
 [![](https://zxe.io/software/Z80-Ruby/assets/images/gem-badge)](https://zxe.io/software/Z80-Ruby/gem)
+[![](https://github.com/redcode/Z80-Ruby/actions/workflows/build-and-test-extension.yml/badge.svg)](https://github.com/redcode/Z80-Ruby/actions/workflows/build-and-test-extension.yml)
 [![](https://zxe.io/software/Z80/assets/images/chat-badge)](https://zxe.io/software/Z80/chat)
 
 Ruby binding for the [Z80](https://github.com/redcode/Z80) library.
@@ -93,9 +94,9 @@ ARGV.each do |file_path|
 end
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80-Ruby/assets/images/ruby-icon.svg" height="14"></sub> run-yaze-zex.rb](https://zxe.io/software/Z80-Ruby/scripts/run-yaze-zex.rb)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80-Ruby/assets/images/rb.svg" height="14"></sub> run-yaze-zex.rb](https://zxe.io/software/Z80-Ruby/scripts/run-yaze-zex.rb)**</sup>
 
-Give it a try:
+Want to try it? Use this:
 
 ```
 curl ftp://ftp.ping.de/pub/misc/emulators/yaze-1.14.tar.gz | tar -xOzf- yaze-1.14/test/zexall.com | ruby -e'eval `curl https://zxe.io/software/Z80-Ruby/scripts/run-yaze-zex.rb`' -
@@ -192,9 +193,9 @@ ARGV.each do |file_path|
 end
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80-Ruby/assets/images/ruby-icon.svg" height="14"></sub> run-raxoft-z80test.rb](https://zxe.io/software/Z80-Ruby/scripts/run-raxoft-z80test.rb)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80-Ruby/assets/images/rb.svg" height="14"></sub> run-raxoft-z80test.rb](https://zxe.io/software/Z80-Ruby/scripts/run-raxoft-z80test.rb)**</sup>
 
-Give it a try:
+Want to try it? Use this:
 
 ```shell
 curl http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip | bsdtar -xOf- z80test-1.2a/z80full.tap | ruby -e'eval `curl https://zxe.io/software/Z80-Ruby/scripts/run-raxoft-z80test.rb`' -
