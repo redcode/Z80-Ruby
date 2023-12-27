@@ -98,7 +98,7 @@ end
 
 Want to try it? Use this:
 
-```
+```shell
 curl ftp://ftp.ping.de/pub/misc/emulators/yaze-1.14.tar.gz | tar -xOzf- yaze-1.14/test/zexall.com | ruby -e'eval `curl https://zxe.io/software/Z80-Ruby/scripts/run-yaze-zex.rb`' -
 ```
 
