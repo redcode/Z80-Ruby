@@ -1,4 +1,4 @@
-# Z80-Ruby
+# Z80-Ruby <img src="https://zxe.io/software/Z80-Ruby/assets/images/Z80-Ruby.svg" width="128" align="right">
 
 [![](https://zxe.io/software/Z80-Ruby/assets/images/gem-badge)](https://zxe.io/software/Z80-Ruby/gem)
 [![](https://github.com/redcode/Z80-Ruby/actions/workflows/build-and-test-extension.yml/badge.svg)](https://github.com/redcode/Z80-Ruby/actions/workflows/build-and-test-extension.yml)
