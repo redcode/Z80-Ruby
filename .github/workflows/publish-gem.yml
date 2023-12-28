@@ -17,7 +17,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.0'
+        ruby-version: "${{vars.PUBLISH_GEM_RUBY_VERSION}}"
 
     - name: Publish to GPR
       env:
