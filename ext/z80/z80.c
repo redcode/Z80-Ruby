@@ -624,7 +624,7 @@ static VALUE Z80__alloc(VALUE klass)
 
 void Init_z80(void)
 	{
-	VALUE module, klass = rb_const_get(rb_cObject, rb_intern("Z80"));
+	VALUE module, klass = rb_define_class("Z80", rb_cObject);
 
 	rb_define_alloc_func(klass, Z80__alloc);
 
