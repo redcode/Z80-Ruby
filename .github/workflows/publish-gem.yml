@@ -7,9 +7,6 @@ on:
 jobs:
   publish-gem:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     steps:
     - uses: actions/checkout@v3
@@ -21,7 +18,7 @@ jobs:
 
     - name: Publish to GPR
       env:
-        GEM_HOST_API_KEY: "Bearer ${{secrets.GITHUB_TOKEN}}"
+        GEM_HOST_API_KEY: "Bearer ${{secrets.GPR_PAT}}"
         OWNER: ${{github.repository_owner}}
       run: |
         mkdir -p $HOME/.gem
@@ -33,7 +30,7 @@ jobs:
 
     - name: Publish to RubyGems
       env:
-        GEM_HOST_API_KEY: "${{secrets.RUBYGEMS_AUTH_TOKEN}}"
+        GEM_HOST_API_KEY: "${{secrets.RUBYGEMS_API_KEY}}"
       run: |
         mkdir -p $HOME/.gem
         touch $HOME/.gem/credentials
