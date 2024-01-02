@@ -6,14 +6,12 @@ on:
     - '.github/workflows/build-and-test-extension.yml'
     - 'ext/**'
     - 'lib/**'
-    - 'Rakefile'
     - 'z80.gemspec'
   pull_request:
     paths:
     - '.github/workflows/build-and-test-extension.yml'
     - 'ext/**'
     - 'lib/**'
-    - 'Rakefile'
     - 'z80.gemspec'
 
 jobs:
