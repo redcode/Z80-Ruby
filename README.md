@@ -205,7 +205,7 @@ curl http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip | bsdtar -xOf- z80test-1.2
 
 <img src="https://zxe.io/software/Z80-Ruby/assets/images/0bsd.svg" width="160" align="right">
 
-Copyright © 2023 Manuel Sainz de Baranda y Goñi.
+Copyright © 2023-2024 Manuel Sainz de Baranda y Goñi.
 
 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
 
