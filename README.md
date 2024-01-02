@@ -79,6 +79,8 @@ cpu.hook do |context, address|
 	end
 end
 
+$stdout.sync = true if $stdout.tty?
+
 ARGV.each do |file_path|
 	program = file_path == '-' ? $stdin.read : File.read(file_path)
 	puts "#{file_path}:"
@@ -169,6 +171,8 @@ cpu.hook do |context, address|
 		Opcode::NOP
 	end
 end
+
+$stdout.sync = true if $stdout.tty?
 
 ARGV.each do |file_path|
 	program = file_path == '-' ? $stdin.read : File.read(file_path)
