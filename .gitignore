@@ -7,12 +7,13 @@ Thumbs.db
 *.o
 *.so
 /.bundle/
+/.yardoc/
 /_yardoc/
 /coverage/
 /doc/
 /pkg/
 /spec/reports/
 /tmp/
+/.ruby-gemset
 /.ruby-version
-/.yardoc
 /Gemfile.lock

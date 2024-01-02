@@ -3,7 +3,7 @@ require_relative 'lib/z80/version'
 Gem::Specification.new do |s|
 	s.name     = 'z80'
 	s.version  = Z80::VERSION
-	s.authors  = 'Manuel Sainz de Baranda y Goñi'
+	s.author   = 'Manuel Sainz de Baranda y Goñi'
 	s.email    = 'manuel@zxe.io'
 	s.homepage = 'https://zxe.io/software/Z80-Ruby'
 	s.license  = '0BSD'
@@ -16,11 +16,12 @@ Gem::Specification.new do |s|
 		EOS
 
 	s.metadata = {
-		'bug_tracker_uri' => "https://github.com/redcode/Z80-Ruby/issues",
-		'changelog_uri'   => 'https://github.com/redcode/Z80-Ruby/blob/master/CHANGELOG.md',
-		'github_repo'     => 'ssh://github.com/redcode/Z80-Ruby',
-		'homepage_uri'    => 'https://zxe.io/software/Z80-Ruby',
-		'source_code_uri' => 'https://github.com/redcode/Z80-Ruby'
+		'bug_tracker_uri'   => "https://github.com/redcode/Z80-Ruby/issues",
+		'changelog_uri'     => 'https://github.com/redcode/Z80-Ruby/blob/master/CHANGELOG.md',
+		'documentation_uri' => 'https://zxe.io/software/Z80/documentation/latest',
+		'github_repo'       => 'ssh://github.com/redcode/Z80-Ruby',
+		'homepage_uri'      => 'https://zxe.io/software/Z80-Ruby',
+		'source_code_uri'   => 'https://github.com/redcode/Z80-Ruby'
 	}
 
 	s.files = [
@@ -31,6 +32,8 @@ Gem::Specification.new do |s|
 		'.github/workflows/publish-gem.yml',
 		'.gitignore',
 		'CHANGELOG.md',
+		'CITATION.cff',
+		'Gemfile',
 		'LICENSE-0BSD',
 		'README.md',
 		'Rakefile',
@@ -42,4 +45,5 @@ Gem::Specification.new do |s|
 	]
 
 	s.extensions = %w(ext/z80/extconf.rb)
+	s.add_development_dependency 'rake-compiler', '~> 1.2', '>= 1.2.0'
 end

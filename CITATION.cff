@@ -1,0 +1,24 @@
+abstract: Ruby interface for the Z80 library.
+authors:
+  - family-names: "Sainz de Baranda y Goñi"
+    given-names: Manuel
+    orcid: https://orcid.org/0000-0001-6326-3519
+    email: manuel@zxe.io
+    website: https://zxe.io
+cff-version: 1.2.0
+date-released: 2023-01-02
+keywords:
+  - binding
+  - CPU
+  - emulator
+  - LLE
+  - Ruby
+  - Z80
+  - Zilog
+license: MIT
+message: If you use this software, please cite it using these metadata.
+repository-code: https://github.com/redcode/Z80-Ruby
+title: Z80-Ruby
+type: software
+version: 0.2.0
+url: https://zxe.io/software/Z80-Ruby
