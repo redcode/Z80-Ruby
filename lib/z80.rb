@@ -1,2 +1,2 @@
-require 'z80/version'
 require 'z80/z80'
+require 'z80/version'
