@@ -6,7 +6,7 @@ authors:
     email: manuel@zxe.io
     website: https://zxe.io
 cff-version: 1.2.0
-date-released: 2023-01-02
+date-released: 2024-01-03
 keywords:
   - binding
   - CPU
@@ -20,5 +20,5 @@ message: If you use this software, please cite it using these metadata.
 repository-code: https://github.com/redcode/Z80-Ruby
 title: Z80-Ruby
 type: software
-version: 0.2.0
+version: 0.3.0
 url: https://zxe.io/software/Z80-Ruby
