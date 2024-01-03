@@ -3,7 +3,7 @@
  ____ \/__/  /\_\  __ \\ \/\ \ ______________________________________
 |        /\_____\\_____\\_____\                                      |
 |  Zilog \/_____//_____//_____/ CPU Emulator - Ruby Binding          |
-|  Copyright (C) 2023 Manuel Sainz de Baranda y Goñi.                |
+|  Copyright (C) 2023-2024 Manuel Sainz de Baranda y Goñi.           |
 |                                                                    |
 |  Permission to use, copy, modify, and/or distribute this software  |
 |  for any purpose with or without fee is hereby granted.            |
@@ -20,6 +20,7 @@
 '===================================================================*/
 
 #include <ruby.h>
+#include <ruby/version.h>
 #include <Z80.h>
 #include <Z/macros/array.h>
 #include <inttypes.h>
@@ -242,129 +243,173 @@ static VALUE Z80__context(VALUE self)
 	}
 
 
-#define MACRO( member, macro) macro(*z80)
-#define DIRECT(member, macro) z80->member
-#define UINT_TO_BOOL(value) value ? Qtrue : Qfalse
-
-#define BOOL_NUM_TO_UINT(value) \
-    (value == Qfalse ? 0 : (value == Qtrue ? 1 : !!NUM2UINT(value)))
-
-
-#define ACCESSOR(type, member, access, with, c_to_ruby, ruby_to_c) \
-								   \
-	static VALUE Z80__##member(VALUE self)			   \
-		{						   \
-		GET_Z80;					   \
-		return c_to_ruby(access(member, with));		   \
-		}						   \
-								   \
-								   \
-	static VALUE Z80__set_##member(VALUE self, VALUE value)	   \
-		{						   \
-		GET_Z80;					   \
-		access(member, with) = (type)ruby_to_c(value);	   \
-		return value;					   \
+#define INTEGER_ACCESSOR(type, member, access, with, converter_affix)	   \
+									   \
+	static VALUE Z80__##member(VALUE self)				   \
+		{							   \
+		GET_Z80;						   \
+		return converter_affix##2NUM(access(member, with));	   \
+		}							   \
+									   \
+									   \
+	static VALUE Z80__set_##member(VALUE self, VALUE value) 	   \
+		{							   \
+		GET_Z80;						   \
+		access(member, with) = (type)NUM2##converter_affix(value); \
+		return value;						   \
 		}
 
 
-ACCESSOR(zusize,  cycles,      DIRECT, Z_EMPTY,	    SIZET2NUM,	  NUM2SIZET	  )
-ACCESSOR(zusize,  cycle_limit, DIRECT, Z_EMPTY,	    SIZET2NUM,	  NUM2SIZET	  )
-ACCESSOR(zuint16, memptr,      MACRO,  Z80_MEMPTR,  UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint16, pc,	       MACRO,  Z80_PC,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint16, sp,	       MACRO,  Z80_SP,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint16, xy,	       MACRO,  Z80_XY,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint16, ix,	       MACRO,  Z80_IX,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint16, iy,	       MACRO,  Z80_IY,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint16, af,	       MACRO,  Z80_AF,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint16, bc,	       MACRO,  Z80_BC,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint16, de,	       MACRO,  Z80_DE,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint16, hl,	       MACRO,  Z80_HL,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint16, af_,	       MACRO,  Z80_AF_,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint16, bc_,	       MACRO,  Z80_BC_,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint16, de_,	       MACRO,  Z80_DE_,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint16, hl_,	       MACRO,  Z80_HL_,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  memptrh,     MACRO,  Z80_MEMPTRH, UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  memptrl,     MACRO,  Z80_MEMPTRL, UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  pch,	       MACRO,  Z80_PCH,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  pcl,	       MACRO,  Z80_PCL,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  sph,	       MACRO,  Z80_SPH,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  spl,	       MACRO,  Z80_SPL,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  xyh,	       MACRO,  Z80_XYH,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  xyl,	       MACRO,  Z80_XYL,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  ixh,	       MACRO,  Z80_IXH,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  ixl,	       MACRO,  Z80_IXL,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  iyh,	       MACRO,  Z80_IYH,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  iyl,	       MACRO,  Z80_IYL,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  a,	       MACRO,  Z80_A,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  f,	       MACRO,  Z80_F,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  b,	       MACRO,  Z80_B,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  c,	       MACRO,  Z80_C,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  d,	       MACRO,  Z80_D,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  e,	       MACRO,  Z80_E,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  h,	       MACRO,  Z80_H,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  l,	       MACRO,  Z80_L,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  a_,	       MACRO,  Z80_A_,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  f_,	       MACRO,  Z80_F_,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  b_,	       MACRO,  Z80_B_,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  c_,	       MACRO,  Z80_C_,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  d_,	       MACRO,  Z80_D_,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  e_,	       MACRO,  Z80_E_,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  h_,	       MACRO,  Z80_H_,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  l_,	       MACRO,  Z80_L_,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  r,	       DIRECT, Z_EMPTY,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  i,	       DIRECT, Z_EMPTY,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  r7,	       DIRECT, Z_EMPTY,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  im,	       DIRECT, Z_EMPTY,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  request,     DIRECT, Z_EMPTY,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  resume,      DIRECT, Z_EMPTY,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  iff1,	       DIRECT, Z_EMPTY,	    UINT_TO_BOOL, BOOL_NUM_TO_UINT)
-ACCESSOR(zuint8,  iff2,	       DIRECT, Z_EMPTY,	    UINT_TO_BOOL, BOOL_NUM_TO_UINT)
-ACCESSOR(zuint8,  q,	       DIRECT, Z_EMPTY,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  options,     DIRECT, Z_EMPTY,	    UINT2NUM,	  NUM2UINT	  )
-ACCESSOR(zuint8,  int_line,    DIRECT, Z_EMPTY,	    UINT_TO_BOOL, BOOL_NUM_TO_UINT)
-ACCESSOR(zuint8,  halt_line,   DIRECT, Z_EMPTY,	    UINT_TO_BOOL, BOOL_NUM_TO_UINT)
+#define MACRO( member, macro) macro(*z80)
+#define DIRECT(member, macro) z80->member
 
-#undef UINT_TO_BOOL
+INTEGER_ACCESSOR(zusize,  cycles,      DIRECT, Z_EMPTY,	    SIZET)
+INTEGER_ACCESSOR(zusize,  cycle_limit, DIRECT, Z_EMPTY,	    SIZET)
+INTEGER_ACCESSOR(zuint16, memptr,      MACRO,  Z80_MEMPTR,  UINT )
+INTEGER_ACCESSOR(zuint16, pc,	       MACRO,  Z80_PC,	    UINT )
+INTEGER_ACCESSOR(zuint16, sp,	       MACRO,  Z80_SP,	    UINT )
+INTEGER_ACCESSOR(zuint16, xy,	       MACRO,  Z80_XY,	    UINT )
+INTEGER_ACCESSOR(zuint16, ix,	       MACRO,  Z80_IX,	    UINT )
+INTEGER_ACCESSOR(zuint16, iy,	       MACRO,  Z80_IY,	    UINT )
+INTEGER_ACCESSOR(zuint16, af,	       MACRO,  Z80_AF,	    UINT )
+INTEGER_ACCESSOR(zuint16, bc,	       MACRO,  Z80_BC,	    UINT )
+INTEGER_ACCESSOR(zuint16, de,	       MACRO,  Z80_DE,	    UINT )
+INTEGER_ACCESSOR(zuint16, hl,	       MACRO,  Z80_HL,	    UINT )
+INTEGER_ACCESSOR(zuint16, af_,	       MACRO,  Z80_AF_,	    UINT )
+INTEGER_ACCESSOR(zuint16, bc_,	       MACRO,  Z80_BC_,	    UINT )
+INTEGER_ACCESSOR(zuint16, de_,	       MACRO,  Z80_DE_,	    UINT )
+INTEGER_ACCESSOR(zuint16, hl_,	       MACRO,  Z80_HL_,	    UINT )
+INTEGER_ACCESSOR(zuint8,  memptrh,     MACRO,  Z80_MEMPTRH, UINT )
+INTEGER_ACCESSOR(zuint8,  memptrl,     MACRO,  Z80_MEMPTRL, UINT )
+INTEGER_ACCESSOR(zuint8,  pch,	       MACRO,  Z80_PCH,	    UINT )
+INTEGER_ACCESSOR(zuint8,  pcl,	       MACRO,  Z80_PCL,	    UINT )
+INTEGER_ACCESSOR(zuint8,  sph,	       MACRO,  Z80_SPH,	    UINT )
+INTEGER_ACCESSOR(zuint8,  spl,	       MACRO,  Z80_SPL,	    UINT )
+INTEGER_ACCESSOR(zuint8,  xyh,	       MACRO,  Z80_XYH,	    UINT )
+INTEGER_ACCESSOR(zuint8,  xyl,	       MACRO,  Z80_XYL,	    UINT )
+INTEGER_ACCESSOR(zuint8,  ixh,	       MACRO,  Z80_IXH,	    UINT )
+INTEGER_ACCESSOR(zuint8,  ixl,	       MACRO,  Z80_IXL,	    UINT )
+INTEGER_ACCESSOR(zuint8,  iyh,	       MACRO,  Z80_IYH,	    UINT )
+INTEGER_ACCESSOR(zuint8,  iyl,	       MACRO,  Z80_IYL,	    UINT )
+INTEGER_ACCESSOR(zuint8,  a,	       MACRO,  Z80_A,	    UINT )
+INTEGER_ACCESSOR(zuint8,  f,	       MACRO,  Z80_F,	    UINT )
+INTEGER_ACCESSOR(zuint8,  b,	       MACRO,  Z80_B,	    UINT )
+INTEGER_ACCESSOR(zuint8,  c,	       MACRO,  Z80_C,	    UINT )
+INTEGER_ACCESSOR(zuint8,  d,	       MACRO,  Z80_D,	    UINT )
+INTEGER_ACCESSOR(zuint8,  e,	       MACRO,  Z80_E,	    UINT )
+INTEGER_ACCESSOR(zuint8,  h,	       MACRO,  Z80_H,	    UINT )
+INTEGER_ACCESSOR(zuint8,  l,	       MACRO,  Z80_L,	    UINT )
+INTEGER_ACCESSOR(zuint8,  a_,	       MACRO,  Z80_A_,	    UINT )
+INTEGER_ACCESSOR(zuint8,  f_,	       MACRO,  Z80_F_,	    UINT )
+INTEGER_ACCESSOR(zuint8,  b_,	       MACRO,  Z80_B_,	    UINT )
+INTEGER_ACCESSOR(zuint8,  c_,	       MACRO,  Z80_C_,	    UINT )
+INTEGER_ACCESSOR(zuint8,  d_,	       MACRO,  Z80_D_,	    UINT )
+INTEGER_ACCESSOR(zuint8,  e_,	       MACRO,  Z80_E_,	    UINT )
+INTEGER_ACCESSOR(zuint8,  h_,	       MACRO,  Z80_H_,	    UINT )
+INTEGER_ACCESSOR(zuint8,  l_,	       MACRO,  Z80_L_,	    UINT )
+INTEGER_ACCESSOR(zuint8,  r,	       DIRECT, Z_EMPTY,	    UINT )
+INTEGER_ACCESSOR(zuint8,  i,	       DIRECT, Z_EMPTY,	    UINT )
+INTEGER_ACCESSOR(zuint8,  r7,	       DIRECT, Z_EMPTY,	    UINT )
+INTEGER_ACCESSOR(zuint8,  im,	       DIRECT, Z_EMPTY,	    UINT )
+INTEGER_ACCESSOR(zuint8,  request,     DIRECT, Z_EMPTY,	    UINT )
+INTEGER_ACCESSOR(zuint8,  resume,      DIRECT, Z_EMPTY,	    UINT )
+INTEGER_ACCESSOR(zuint8,  q,	       DIRECT, Z_EMPTY,	    UINT )
+INTEGER_ACCESSOR(zuint8,  options,     DIRECT, Z_EMPTY,	    UINT )
+
 #undef MACRO
 #undef DIRECT
-#undef ACCESSOR
+#undef INTEGER_ACCESSOR
 
 
-#define FLAG_ACCESSOR(flag, shift)				       \
-								       \
-static VALUE Z80__##flag(VALUE self)				       \
-	{							       \
-	GET_Z80;						       \
-	return UINT2NUM((Z80_F(*z80) >> shift) & 1);		       \
-	}							       \
-								       \
-static VALUE Z80__set_##flag(VALUE self, VALUE value)		       \
-	{							       \
-	zuint8 bit = (zuint8)(NUM2UINT(value) & 1);		       \
-	GET_Z80;						       \
-	Z80_F(*z80) = (Z80_F(*z80) & ~(1U << shift)) | (bit << shift); \
-	return UINT2NUM(bit);					       \
+#define BOOL_NUM_TO_UINT(value) \
+	(value == Qfalse ? 0U : (value == Qtrue ? 1U : !!NUM2UINT(value)))
+
+
+#define BOOLEAN_ACCESSOR(member)			\
+							\
+static VALUE Z80__##member(VALUE self)			\
+	{						\
+	GET_Z80;					\
+	return UINT2NUM(z80->member);			\
+	}						\
+							\
+static VALUE Z80__##member##_p(VALUE self)		\
+	{						\
+	GET_Z80;					\
+	return z80->member ? Qtrue : Qfalse;		\
+	}						\
+							\
+							\
+static VALUE Z80__set_##member(VALUE self, VALUE value) \
+	{						\
+	GET_Z80;					\
+	z80->member = BOOL_NUM_TO_UINT(value);		\
+	return value;					\
 	}
 
 
-FLAG_ACCESSOR(sf, 7)
-FLAG_ACCESSOR(zf, 6)
-FLAG_ACCESSOR(yf, 5)
-FLAG_ACCESSOR(hf, 4)
-FLAG_ACCESSOR(xf, 3)
-FLAG_ACCESSOR(pf, 2)
-FLAG_ACCESSOR(nf, 1)
-FLAG_ACCESSOR(cf, 0)
+BOOLEAN_ACCESSOR(iff1	  )
+BOOLEAN_ACCESSOR(iff2	  )
+BOOLEAN_ACCESSOR(int_line )
+BOOLEAN_ACCESSOR(halt_line)
+
+#undef BOOLEAN_ACCESSOR
+
+
+#define FLAG_ACCESSOR(flag, mask, shift)		  \
+							  \
+static VALUE Z80__##flag(VALUE self)			  \
+	{						  \
+	GET_Z80;					  \
+	return UINT2NUM((Z80_F(*z80) >> shift) & 1);	  \
+	}						  \
+							  \
+							  \
+static VALUE Z80__##flag##_p(VALUE self)		  \
+	{						  \
+	GET_Z80;					  \
+	return Z80_F(*z80) & Z80_##mask ? Qtrue : Qfalse; \
+	}						  \
+							  \
+							  \
+static VALUE Z80__set_##flag(VALUE self, VALUE value)	  \
+	{						  \
+	GET_Z80;					  \
+							  \
+	Z80_F(*z80) =					  \
+		(Z80_F(*z80) & ~(1U << shift)) |	  \
+		(BOOL_NUM_TO_UINT(value) << shift);	  \
+							  \
+	return value;					  \
+	}
+
+
+FLAG_ACCESSOR(sf, SF, 7)
+FLAG_ACCESSOR(zf, ZF, 6)
+FLAG_ACCESSOR(yf, YF, 5)
+FLAG_ACCESSOR(hf, HF, 4)
+FLAG_ACCESSOR(xf, XF, 3)
+FLAG_ACCESSOR(pf, PF, 2)
+FLAG_ACCESSOR(nf, NF, 1)
+FLAG_ACCESSOR(cf, CF, 0)
 
 #undef FLAG_ACCESSOR
+#undef BOOL_NUM_TO_UINT
 
 
 /* MARK: - Methods */
 
-static VALUE Z80__power(VALUE self, VALUE state)
+static VALUE Z80__power(int argc, VALUE *argv, VALUE self)
 	{
-	GET_Z80;
-	z80_power(z80, RB_TEST(state));
+	Z80 *z80;
+
+	if (argc > 1) rb_raise(
+		rb_eArgError,
+		"wrong number of arguments (given %d, expected 0 or 1)",
+		argc);
+
+	TypedData_Get_Struct(self, Z80, &z80_data_type, z80);
+	z80_power(z80, RB_TEST(argv[0]));
 	return self;
 	}
 
@@ -445,7 +490,7 @@ static VALUE Z80__out_cycle(VALUE self)
 
 static struct {char const* name; zuint offset;} const
 
-members_16[] = {
+uint16_members[] = {
 	{"memptr", Z_MEMBER_OFFSET(Z80, memptr	)},
 	{"pc",	   Z_MEMBER_OFFSET(Z80, pc	)},
 	{"sp",	   Z_MEMBER_OFFSET(Z80, sp	)},
@@ -462,39 +507,57 @@ members_16[] = {
 	{"hl_",	   Z_MEMBER_OFFSET(Z80, hl_	)}
 },
 
-members_8[] = {
-	{"r",	      Z_MEMBER_OFFSET(Z80, r	    )},
+uint8_members[] = {
 	{"i",	      Z_MEMBER_OFFSET(Z80, i	    )},
+	{"r",	      Z_MEMBER_OFFSET(Z80, r	    )},
 	{"r7",	      Z_MEMBER_OFFSET(Z80, r7	    )},
+	{"q",	      Z_MEMBER_OFFSET(Z80, q	    )},
 	{"im",	      Z_MEMBER_OFFSET(Z80, im	    )},
 	{"request",   Z_MEMBER_OFFSET(Z80, request  )},
 	{"resume",    Z_MEMBER_OFFSET(Z80, resume   )},
+	{"options",   Z_MEMBER_OFFSET(Z80, options  )},
 	{"iff1",      Z_MEMBER_OFFSET(Z80, iff1	    )},
 	{"iff2",      Z_MEMBER_OFFSET(Z80, iff2	    )},
-	{"q",	      Z_MEMBER_OFFSET(Z80, q	    )},
-	{"options",   Z_MEMBER_OFFSET(Z80, options  )},
 	{"int_line",  Z_MEMBER_OFFSET(Z80, int_line )},
 	{"halt_line", Z_MEMBER_OFFSET(Z80, halt_line)}
 };
 
 
-static VALUE Z80__to_h(VALUE self)
+static VALUE Z80__to_h(int argc, VALUE *argv, VALUE self)
 	{
-	VALUE hash = rb_hash_new();
-	VALUE kv[(Z_ARRAY_SIZE(members_16) + Z_ARRAY_SIZE(members_8)) * 2];
-	int i = 0, j;
-	GET_Z80;
+	Z80 *z80;
+	VALUE hash;
+	VALUE kv[(Z_ARRAY_SIZE(uint16_members) + Z_ARRAY_SIZE(uint8_members)) * 2];
+	int i, j, uint8_member_count;
 
-	for (j = 0; j < Z_ARRAY_SIZE(members_16);)
+	if (argc > 1) rb_raise(
+		rb_eArgError,
+		"wrong number of arguments (given %d, expected 0 or 1)",
+		argc);
+
+	TypedData_Get_Struct(self, Z80, &z80_data_type, z80);
+	hash = rb_hash_new();
+
+	uint8_member_count =
+		Z_ARRAY_SIZE(uint8_members) -
+		((argc && RB_TEST(argv[0])) << 2); /* 4 or 0 */
+
+	for (i = j = 0; j < Z_ARRAY_SIZE(uint16_members);)
 		{
-		kv[i++] = rb_id2sym(rb_intern(members_16[j].name));
-		kv[i++] = UINT2NUM(*(zuint16 *)(void *)((char *)z80 + members_16[j++].offset));
+		kv[i++] = rb_id2sym(rb_intern(uint16_members[j].name));
+		kv[i++] = UINT2NUM(*(zuint16 *)(void *)((char *)z80 + uint16_members[j++].offset));
 		}
 
-	for (j = 0; j < Z_ARRAY_SIZE(members_8);)
+	for (j = 0; j < uint8_member_count;)
 		{
-		kv[i++] = rb_id2sym(rb_intern(members_8[j].name));
-		kv[i++] = UINT2NUM(*((zuint8 *)z80 + members_8[j++].offset));
+		kv[i++] = rb_id2sym(rb_intern(uint8_members[j].name));
+		kv[i++] = UINT2NUM(*((zuint8 *)z80 + uint8_members[j++].offset));
+		}
+
+	while (j < Z_ARRAY_SIZE(uint8_members))
+		{
+		kv[i++] = rb_id2sym(rb_intern(uint8_members[j].name));
+		kv[i++] = *((zuint8 *)z80 + uint8_members[j++].offset) ? Qtrue : Qfalse;
 		}
 
 	rb_hash_bulk_insert_into_st_table(Z_ARRAY_SIZE(kv), kv, hash);
@@ -529,7 +592,7 @@ static VALUE Z80__print(VALUE self)
 		"%c %c %c %c %c %c %c %c  IFF2 %" PRIu8 "  R7 %" PRIu8 "  RI %" PRIu8 "\n",
 		Z80_PC(*z80),	  Z80_AF(*z80), Z80_AF_(*z80), Z80_IX(*z80),
 		Z80_SP(*z80),	  Z80_BC(*z80), Z80_BC_(*z80), Z80_IY(*z80),
-		z80->i, z80->r,   Z80_DE(*z80), Z80_DE_(*z80), Z80_IX(*z80),
+		z80->i, z80->r,	  Z80_DE(*z80), Z80_DE_(*z80), Z80_IX(*z80),
 		Z80_MEMPTR(*z80), Z80_HL(*z80), Z80_HL_(*z80), z80->q,
 		z80->iff1, z80->im, '\0',
 		one_hyphen[!(f & Z80_SF)],
@@ -580,13 +643,13 @@ static void Z80__compact(Z80 *z80)
 static rb_data_type_t const z80_data_type = {
 	.wrap_struct_name = "z80",
 	.function = {
-		.dmark	  = (void (*)(void *))Z80__mark,
-		.dfree	  = (void (*)(void *))Z80__free,
-		.dsize	  = NULL,
-		.dcompact = (void (*)(void *))Z80__compact
-	},
-	.flags = RUBY_TYPED_FREE_IMMEDIATELY
-};
+#		if defined(RUBY_API_VERSION_MAJOR) && RUBY_API_VERSION_MAJOR >= 3
+			.dcompact = (void (*)(void *))Z80__compact,
+#		endif
+		.dmark = (void (*)(void *))Z80__mark,
+		.dfree = (void (*)(void *))Z80__free,
+		.dsize = NULL},
+	.flags = RUBY_TYPED_FREE_IMMEDIATELY};
 
 
 static VALUE Z80__alloc(VALUE klass)
@@ -608,7 +671,7 @@ static VALUE Z80__alloc(VALUE klass)
 	z80->nop	  =
 	z80->nmia	  =
 	z80->inta	  =
-	z80->int_fetch    =
+	z80->int_fetch	  =
 	z80->hook	  = NULL;
 	z80->ld_i_a	  =
 	z80->ld_r_a	  =
@@ -690,8 +753,8 @@ void Init_z80(void)
 	DEFINE_ACCESSOR(reti	    )
 	DEFINE_ACCESSOR(retn	    )
 	DEFINE_ACCESSOR(hook	    )
-	DEFINE_ACCESSOR(illegal     )
-	DEFINE_ACCESSOR(context     )
+	DEFINE_ACCESSOR(illegal	    )
+	DEFINE_ACCESSOR(context	    )
 	DEFINE_ACCESSOR(cycles	    )
 	DEFINE_ACCESSOR(cycle_limit )
 	DEFINE_ACCESSOR(memptr	    )
@@ -708,8 +771,8 @@ void Init_z80(void)
 	DEFINE_ACCESSOR(bc_	    )
 	DEFINE_ACCESSOR(de_	    )
 	DEFINE_ACCESSOR(hl_	    )
-	DEFINE_ACCESSOR(memptrh     )
-	DEFINE_ACCESSOR(memptrl     )
+	DEFINE_ACCESSOR(memptrh	    )
+	DEFINE_ACCESSOR(memptrl	    )
 	DEFINE_ACCESSOR(pch	    )
 	DEFINE_ACCESSOR(pcl	    )
 	DEFINE_ACCESSOR(sph	    )
@@ -740,37 +803,43 @@ void Init_z80(void)
 	DEFINE_ACCESSOR(i	    )
 	DEFINE_ACCESSOR(r7	    )
 	DEFINE_ACCESSOR(im	    )
-	DEFINE_ACCESSOR(request     )
+	DEFINE_ACCESSOR(request	    )
 	DEFINE_ACCESSOR(resume	    )
-	DEFINE_ACCESSOR(iff1	    )
-	DEFINE_ACCESSOR(iff2	    )
 	DEFINE_ACCESSOR(q	    )
-	DEFINE_ACCESSOR(options     )
-	DEFINE_ACCESSOR(int_line    )
-	DEFINE_ACCESSOR(halt_line   )
-	DEFINE_ACCESSOR(sf	    )
-	DEFINE_ACCESSOR(zf	    )
-	DEFINE_ACCESSOR(yf	    )
-	DEFINE_ACCESSOR(hf	    )
-	DEFINE_ACCESSOR(xf	    )
-	DEFINE_ACCESSOR(pf	    )
-	DEFINE_ACCESSOR(nf	    )
-	DEFINE_ACCESSOR(cf	    )
+	DEFINE_ACCESSOR(options	    )
+
+#	define DEFINE_BOOLEAN_ACCESSOR(name) \
+		DEFINE_ACCESSOR(name)	     \
+		rb_define_method(klass, #name "?", Z80__##name##_p, 0);
+
+	DEFINE_BOOLEAN_ACCESSOR(iff1	 )
+	DEFINE_BOOLEAN_ACCESSOR(iff2	 )
+	DEFINE_BOOLEAN_ACCESSOR(int_line )
+	DEFINE_BOOLEAN_ACCESSOR(halt_line)
+	DEFINE_BOOLEAN_ACCESSOR(sf	 )
+	DEFINE_BOOLEAN_ACCESSOR(zf	 )
+	DEFINE_BOOLEAN_ACCESSOR(yf	 )
+	DEFINE_BOOLEAN_ACCESSOR(hf	 )
+	DEFINE_BOOLEAN_ACCESSOR(xf	 )
+	DEFINE_BOOLEAN_ACCESSOR(pf	 )
+	DEFINE_BOOLEAN_ACCESSOR(nf	 )
+	DEFINE_BOOLEAN_ACCESSOR(cf	 )
 
 #	undef DEFINE_ACCESSOR
+#	undef DEFINE_FLAG_ACCESSOR
 
-	rb_define_method(klass, "power",           Z80__power,		 1);
+	rb_define_method(klass, "power",	   Z80__power,		-1);
 	rb_define_method(klass, "instant_reset",   Z80__instant_reset,	 0);
 	rb_define_method(klass, "int",		   Z80__int,		 1);
 	rb_define_method(klass, "nmi",		   Z80__nmi,		 0);
 	rb_define_method(klass, "execute",	   Z80__execute,	 1);
 	rb_define_method(klass, "run",		   Z80__run,		 1);
 	rb_define_method(klass, "terminate",	   Z80__terminate,	 0);
-	rb_define_method(klass, "full_r",          Z80__refresh_address, 0);
+	rb_define_method(klass, "full_r",	   Z80__refresh_address, 0);
 	rb_define_method(klass, "refresh_address", Z80__refresh_address, 0);
 	rb_define_method(klass, "in_cycle",	   Z80__in_cycle,	 0);
 	rb_define_method(klass, "out_cycle",	   Z80__out_cycle,	 0);
-	rb_define_method(klass, "to_h",		   Z80__to_h,		 0);
+	rb_define_method(klass, "to_h",		   Z80__to_h,		-1);
 	rb_define_method(klass, "print",	   Z80__print,		 0);
 /*	rb_define_method(klass, "to_s",		   Z80__to_s,		 0);*/
 
