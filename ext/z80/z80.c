@@ -168,8 +168,7 @@ static CallbackInfo const callback_info_table[] = {
 	{Z_MEMBER_OFFSET(Z80, reti	  ), NULL,	  proc_reti,	     method_reti,	},
 	{Z_MEMBER_OFFSET(Z80, retn	  ), NULL,	  proc_retn,	     method_retn,	},
 	{Z_MEMBER_OFFSET(Z80, hook	  ), NULL,	  proc_hook,	     method_hook,	},
-	{Z_MEMBER_OFFSET(Z80, illegal	  ), NULL,	  proc_illegal,	     method_illegal,	}
-};
+	{Z_MEMBER_OFFSET(Z80, illegal	  ), NULL,	  proc_illegal,	     method_illegal,	}};
 
 
 static void set_callback(VALUE self, VALUE object, zuint index)
@@ -504,8 +503,7 @@ uint16_members[] = {
 	{"af_",	   Z_MEMBER_OFFSET(Z80, af_	)},
 	{"bc_",	   Z_MEMBER_OFFSET(Z80, bc_	)},
 	{"de_",	   Z_MEMBER_OFFSET(Z80, de_	)},
-	{"hl_",	   Z_MEMBER_OFFSET(Z80, hl_	)}
-},
+	{"hl_",	   Z_MEMBER_OFFSET(Z80, hl_	)}},
 
 uint8_members[] = {
 	{"i",	      Z_MEMBER_OFFSET(Z80, i	    )},
@@ -519,8 +517,7 @@ uint8_members[] = {
 	{"iff1",      Z_MEMBER_OFFSET(Z80, iff1	    )},
 	{"iff2",      Z_MEMBER_OFFSET(Z80, iff2	    )},
 	{"int_line",  Z_MEMBER_OFFSET(Z80, int_line )},
-	{"halt_line", Z_MEMBER_OFFSET(Z80, halt_line)}
-};
+	{"halt_line", Z_MEMBER_OFFSET(Z80, halt_line)}};
 
 
 static VALUE Z80__to_h(int argc, VALUE *argv, VALUE self)
