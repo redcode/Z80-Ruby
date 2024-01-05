@@ -690,6 +690,7 @@ void Init_z80(void)
 
 	rb_define_const(klass, "MAXIMUM_CYCLES",	  ULL2NUM(Z80_MAXIMUM_CYCLES	      ));
 	rb_define_const(klass, "MAXIMUM_CYCLES_PER_STEP", UINT2NUM(Z80_MAXIMUM_CYCLES_PER_STEP));
+	rb_define_const(klass, "MINIMUM_CYCLES_PER_STEP", UINT2NUM(Z80_MINIMUM_CYCLES_PER_STEP));
 	rb_define_const(klass, "HOOK",			  UINT2NUM(Z80_HOOK		      ));
 
 	rb_define_const(klass, "SF", UINT2NUM(Z80_SF));
