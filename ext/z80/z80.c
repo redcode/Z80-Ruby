@@ -832,7 +832,7 @@ void Init_z80(void)
 	rb_define_method(klass, "execute",	   Z80__execute,	 1);
 	rb_define_method(klass, "run",		   Z80__run,		 1);
 	rb_define_method(klass, "terminate",	   Z80__terminate,	 0);
-	rb_define_method(klass, "full_r",	   Z80__refresh_address, 0);
+	rb_define_method(klass, "full_r",	   Z80__full_r,		 0);
 	rb_define_method(klass, "refresh_address", Z80__refresh_address, 0);
 	rb_define_method(klass, "in_cycle",	   Z80__in_cycle,	 0);
 	rb_define_method(klass, "out_cycle",	   Z80__out_cycle,	 0);
