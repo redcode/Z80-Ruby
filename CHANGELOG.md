@@ -1,4 +1,12 @@
-# Z80-Ruby ChangeLog
+# Z80-Ruby Changelog
+
+This is the version history and changelog of Z80-Ruby. Version numbers do not correlate with those of the Z80 library. Release dates are in UTC time zone.
+
+## 0.3.1 / 2024-01-05
+
+### Bugfixes
+
+* Fixed `Z80#full_r`, which previously acted as `Z80#refresh_address` by mistake.
 
 ## 0.3.0 / 2024-01-03
 
