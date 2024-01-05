@@ -2,6 +2,12 @@
 
 This is the version history and changelog of Z80-Ruby. Version numbers do not correlate with those of the Z80 library. Release dates are in UTC time zone.
 
+## 0.3.2 / 2024-01-05
+
+### Bugfixes
+
+* Added `Z80::MINIMUM_CYCLES_PER_STEP` (again). It was not actually added in v0.2.0 by mistake.
+
 ## 0.3.1 / 2024-01-05
 
 ### Bugfixes
@@ -25,7 +31,7 @@ This is the version history and changelog of Z80-Ruby. Version numbers do not co
 
 ### Enhancements
 
-* Added [`Z80::MINIMUM_CYCLES_PER_STEP`](https://zxe.io/software/Z80/documentation/latest/APIReference.html#c.Z80_MINIMUM_CYCLES_PER_STEP).
+* Added `Z80::MINIMUM_CYCLES_PER_STEP`.
 * Minor code improvements.
 
 ### Bugfixes

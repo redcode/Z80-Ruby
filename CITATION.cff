@@ -20,5 +20,5 @@ message: If you use this software, please cite it using these metadata.
 repository-code: https://github.com/redcode/Z80-Ruby
 title: Z80-Ruby
 type: software
-version: 0.3.1
+version: 0.3.2
 url: https://zxe.io/software/Z80-Ruby
