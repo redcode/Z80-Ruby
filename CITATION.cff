@@ -15,7 +15,7 @@ keywords:
   - Ruby
   - Z80
   - Zilog
-license: MIT
+license: 0BSD
 message: If you use this software, please cite it using these metadata.
 repository-code: https://github.com/redcode/Z80-Ruby
 title: Z80-Ruby
