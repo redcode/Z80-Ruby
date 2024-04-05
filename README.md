@@ -1,8 +1,8 @@
 # Z80-Ruby <img src="https://zxe.io/software/Z80-Ruby/assets/images/Z80-Ruby.svg" width="128" align="right">
 
-[![](https://zxe.io/software/Z80-Ruby/assets/images/gem-badge)](https://rubygems.org/gems/z80)
+[![](https://zxe.io/software/Z80-Ruby/assets/images/gem-badge.svg)](https://rubygems.org/gems/z80)
 [![](https://github.com/redcode/Z80-Ruby/actions/workflows/build-and-test-extension.yml/badge.svg)](https://github.com/redcode/Z80-Ruby/actions/workflows/build-and-test-extension.yml)
-[![](https://zxe.io/software/Z80/assets/images/chat-badge)](https://zxe.io/software/Z80/chat)
+[![](https://zxe.io/software/Z80/assets/images/chat-badge.svg)](https://zxe.io/software/Z80/chat)
 
 Ruby binding for the [Z80](https://github.com/redcode/Z80) library.
 
