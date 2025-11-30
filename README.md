@@ -96,7 +96,7 @@ ARGV.each do |file_path|
 end
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80-Ruby/assets/images/rb.svg" height="14"></sub> run-yaze-zex.rb](https://zxe.io/software/Z80-Ruby/scripts/run-yaze-zex.rb)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80-Ruby/assets/images/rb.svg" height="14" width="19"></sub> run-yaze-zex.rb](https://zxe.io/software/Z80-Ruby/scripts/run-yaze-zex.rb)**</sup>
 
 Want to try it? Use this:
 
@@ -197,7 +197,7 @@ ARGV.each do |file_path|
 end
 ```
 
-<sup>**[<sub><img src="https://zxe.io/software/Z80-Ruby/assets/images/rb.svg" height="14"></sub> run-raxoft-z80test.rb](https://zxe.io/software/Z80-Ruby/scripts/run-raxoft-z80test.rb)**</sup>
+<sup>**[<sub><img src="https://zxe.io/software/Z80-Ruby/assets/images/rb.svg" height="14" width="19"></sub> run-raxoft-z80test.rb](https://zxe.io/software/Z80-Ruby/scripts/run-raxoft-z80test.rb)**</sup>
 
 Want to try it? Use this:
 
@@ -207,7 +207,7 @@ curl http://zxds.raxoft.cz/taps/misc/z80test-1.2a.zip | bsdtar -xOf- z80test-1.2
 
 ## License
 
-<img src="https://zxe.io/software/Z80-Ruby/assets/images/0bsd.svg" width="160" align="right">
+<img src="https://zxe.io/software/Z80-Ruby/assets/images/0bsd.svg" width="150" height="70" align="right">
 
 Copyright © 2023-2024 Manuel Sainz de Baranda y Goñi.
 
